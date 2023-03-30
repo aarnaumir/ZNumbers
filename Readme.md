@@ -18,8 +18,8 @@ dfn(2)=0.2,
 dfn(3)=0.5,
 dfn(4)=1,
 dfn(5)=1,
-dfn(6)=0.9
-dfn(7)=0.8
+dfn(6)=0.9,
+dfn(7)=0.8.
 
 The description of the functions is as follows:
 
