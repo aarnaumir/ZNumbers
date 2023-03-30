@@ -10,21 +10,21 @@ core = function(dfn){
 }
 
 
-increasing.generation = function(values,length.dfn){
+increasing.generation = function(y,length.dfn){
   vectors=c()
   aux=c()
-  n=length(values)
+  n=length(y)
     for (i in 1:n){
-    aux=c(aux,values[1])
+    aux=c(aux,y[1])
     if(length(aux) == length.dfn) {
       vectors=rbind(vectors,aux)
       aux=c()
     } else {
-      aux2=increasing.generation(values,length.dfn-1)
+      aux2=increasing.generation(y,length.dfn-1)
       m=dim(aux2)[1]
-      vectors=rbind(vectors,cbind(rep(values[1],m),aux2))
+      vectors=rbind(vectors,cbind(rep(y[1],m),aux2))
     }
-    values=values[-1]
+    y=y[-1]
     aux=c()
     }
   rownames(vectors)=c()
@@ -32,8 +32,8 @@ increasing.generation = function(values,length.dfn){
 }
 
 
-decreasing.generation = function(values,length.dfn){
-  vectors=increasing.generation(values,length.dfn)
+decreasing.generation = function(y,length.dfn){
+  vectors=increasing.generation(y,length.dfn)
   if (length.dfn !=1){
     vectors=t(apply(vectors,1,rev))
    } 
@@ -43,20 +43,21 @@ decreasing.generation = function(values,length.dfn){
 
 all.dfns = function(y,n){
   generated.dfns=c()
-  for (i in 2:(n-1)){
-    left.piece = increasing.generation(y,i-1)
-    for (j in i:(n-1)){
-      # core is [i,j]
-      right.piece = decreasing.generation(y,n-j)
-      for (k in 1:dim(left.piece)[1]){
-        for (l in 1:dim(right.piece)[1]){
-          aux=c(left.piece[k,],rep(1,j-i+1),right.piece[l,])
-          generated.dfns=rbind(generated.dfns,aux)
+  if (n>=3){
+    for (i in 2:(n-1)){
+      left.piece = increasing.generation(y,i-1)
+      for (j in i:(n-1)){
+        # core is [i,j]
+        right.piece = decreasing.generation(y,n-j)
+        for (k in 1:dim(left.piece)[1]){
+          for (l in 1:dim(right.piece)[1]){
+            aux=c(left.piece[k,],rep(1,j-i+1),right.piece[l,])
+            generated.dfns=rbind(generated.dfns,aux)
+          }
         }
       }
     }
   }
-
   for (i in 1:(n-1)){
     right.piece2 = decreasing.generation(y,n-i)
     for (j in 1:dim(right.piece2)[1]){

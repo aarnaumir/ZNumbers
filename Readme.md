@@ -1,5 +1,13 @@
 This is the repository for the paper about the order of ZNumbers.
 
+The file FunctionsZNumbers.R contains all the functions to compute
+  * the alpha-cuts of a discrete fuzzy number (dfn),
+  * the core of a dfn,
+  * all the dfns associated with the chain {0,1,...,n} that take values in the set {y_1 = 0< y_2 <...< y_m=1},
+  * all the ordered dfns associated with the chain {0,1,...,n} that take values in the set {y_1 = 0< y_2 <...< y_m=1},
+  * the value of the omega function of a dfn,
+  * the dfn A_B given the dfn A and the value of omega(B).
+
 All the functions are written in the R language.
 
 The discrete fuzzy numbers are introduced as follows:
@@ -13,24 +21,24 @@ dfn(5)=1,
 dfn(6)=0.9
 dfn(7)=0.8
 
-There are the following functions:
+The description of the functions is as follows:
 
 - alpha.cut(dfn,alpha) is a function that returns the alpha cut of the dfn for alpha, that is,
-the set [ax,bx] where for all y in [ax,bx] dfn(y)>=alpha. For example:
+the set [ax,bx] where for all y in [ax,bx] dfn(y)>=alpha. For example if we use the previous dfn,
 alpha.cut(dfn,0.65)
 returns
 5 8
 So, the alpha.cut of the dfn for alpha=0.65 is the discrete interval {4,5,6,7}.
 
 - core(dfn) is a function that returns the core of the dfn, that is,
-the set [ax,bx] where for all y in [ax,bx] dfn(y)=1. For example:
+the set [ax,bx] where for all y in [ax,bx] dfn(y)=1. For example if we use the previous dfn:
 core(dfn)
 returns
 5 6
 So, the core of the dfn is the discrete interval {4,5}.
 
-- increasing.generation(values,length.dfn) is a function that generates all increasing dfns that 
-take values in parameter values whose length of the Ln is length.dfn. For example
+- increasing.generation(y,length.dfn) is a function that generates all increasing dfns that 
+take values in the set y={y_1 =0< y_2<...<y_m=1} whose length of the Ln is length.dfn. For example
 increasing.generation(c(0.1,0.3,1),2)
 returns
      [,1] [,2]
@@ -42,7 +50,7 @@ returns
 [6,]  1.0  1.0
 that is, the 6 increasing dfns associated with the chain {0,1} whose values are in the set {0.1,0.3,1}
 
-- decreasing.generation(values,length.dfn) is a function that generates all decreasing dfns that 
+- decreasing.generation(y,length.dfn) is a function that generates all decreasing dfns that 
 take values in parameter values whose length of the Ln is length.dfn. For example
 decreasing.generation(c(0.1,0.3,1),2)
 returns
@@ -55,7 +63,7 @@ returns
 [6,]  1.0  1.0
 that is, the 6 decreasing dfns associated with the chain {0,1} whose values are in the set {0.1,0.3,1}
 
-all.dfns(y,n) is a function that generates all dfns that take values in the vector (y,1) whose length of the chain Ln is n or the chain Ln is {0,1,...,n-1}. So, the value 1 is excluded in the vector y. For example
+all.dfns(y,n) is a function that generates all dfns that take values in the set {y,1}={y_1=0<y_2<...<y_{m-1}< 1} where y={y_1=0<y_2<...<y_{m-1}} whose length of the chain Ln is n or the chain Ln is {0,1,...,n-1}. So, the value 1 is excluded in the vector y. For example
 all.dfns(c(0,0.3),4)
 returns
       [,1] [,2] [,3] [,4]
@@ -96,7 +104,7 @@ returns
 [35,]  1.0  1.0  1.0  1.0
 that is, all the dfns associated with the chain {0,1,2,3} whose values are in the set {0,0.3,1}.
 
-- sort.dfns(dfn1,dfn2,y). Given two dfns dfn1 and dfn2 associated with the chain {0,1,...,n-1} that take values in the vector (y,1) (the value 1 is excluded in the vector y) sort.dfns is a function that returns TRUE if the dfns dfn1 is greater than dfn2 and it returns FALSE otherwise. Therefore, in this function the order of the dfns must be defined.
+- sort.dfns(dfn1,dfn2,y). Given two dfns dfn1 and dfn2 associated with the chain {0,1,...,n-1} that take values in the set {y,1}={y_1=0<y_2<...<y_{m-1}< 1} (the value 1 is excluded in the vector y) sort.dfns is a function that returns TRUE if the dfns dfn1 is greater than dfn2 and it returns FALSE otherwise. Therefore, in this function the order of the dfns must be defined.
 For example, for the lexicographic order, if 
 dfn1=c(0,0.1,0.3,1)
 dfn2=c(0,0.3,1,0.5)
@@ -107,7 +115,7 @@ returns
 FALSE
 
 
-- mmerge(a,b,y) is a function that sorts the given dfns by rows a and b using the order defined in the sort.dfns function. The dfns take values in the vector (y,1).
+- mmerge(a,b,y) is a function that sorts the given dfns by rows a and b using the order defined in the sort.dfns function. The dfns take values in the set {y,1}={y_1=0<y_2<...<y_{m-1}< 1}.
 For example:
 dfns.all = all.dfns(c(0,0.3),4)  # We store all dfns associated to the chain {0,1,2,3} that take values in the set {0,0.3,1} in the object dfns.all. 
 The function
@@ -137,7 +145,7 @@ returns
 [21,]  0.3  0.3  1.0  1.0
 
 
-- mmergesort(A,y) is a function that sorts the given dfns by rows of matrix A using the merge sort algorithm. The dfns take values in the vector (y,1).
+- mmergesort(A,y) is a function that sorts the given dfns by rows of matrix A using the merge sort algorithm. The dfns take values in the set {y,1}={y_1=0<y_2<...<y_{m-1}< 1}..
 For example:
 dfns.all = all.dfns(c(0,0.3),4)  # We store all dfns associated to the chain {0,1,2,3} that take values in the set {0,0.3,1} in the object dfns.all. 
 mmergesort(dfns.all,c(0,0.1,0.3))
@@ -190,8 +198,7 @@ returns
 0.2
 Therefore, the value of w(dfn)=0.2.
 
-- AB(A,w,f) is a function that returns the dfn A_B using the dfn A, the value of w (the value of omega of the dfn B) and 
-the decreasing fuction f.
+- AB(A,w,f) is a function that returns the dfn A_B using the dfn A, the value of w (the value of omega of the dfn B) and the decreasing fuction f.
 For example:
 f = function(x){1-x} # We define the function f
 A = c(0,0.2,0.6,1,1,0.6) # We define the dfn A
