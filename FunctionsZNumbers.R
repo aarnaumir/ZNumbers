@@ -104,7 +104,7 @@ sort.dfns = function(dfn1,dfn2,y){
       }
     }
   if(alpha.cut1[1] == alpha.cut2[1]){
-    if(alpha.cut1[1] < alpha.cut2[2]){
+    if(alpha.cut1[2] < alpha.cut2[2]){
       return(TRUE)
     }
     else{
