@@ -165,7 +165,7 @@ omega = function(dfn,sorted.dfns){
     dfn2=rbind(dfn2,dfn)
   }
   n=length(dfn)
-  result=which(apply(sorted.dfns-dfn2,1,count.zeros)==n)/
+  result=which(apply(round(sorted.dfns-dfn2,6),1,count.zeros)==n)/
       dim(sorted.dfns)[1]
   return(result)
 }
